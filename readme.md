@@ -11,75 +11,60 @@ This repository demonstrates how to use Terraform's built-in testing framework w
 ## Directory Structure
 
 ```
-.
-├── main.tf                 # Root configuration
-├── storage/               # Module directory
-│   └── main.tf            # Module configuration
-├── tests/                # Test directory
-│   └── main.tftest.hcl    # Test file
-└── README.md
+├── storage/
+│   ├── main.tf
+│   ├── outputs.tf
+│   └── variables.tf
+├── tests/
+│   └── storage.tftest.hcl
+├── .gitignore
+├── main.tf
+└── readme.md
 ```
 
-## Module Usage
+## Module Components
 
-```hcl
-module "storage" {
-  source = "./storage"
-  
-  resource_group_name  = "example-rg"
-  storage_account_name = "yourstorageaccount"
-  location            = "eastus"
-}
-```
+### Storage Module
 
-## Module Inputs
+Located in the `/storage` directory, this module manages storage resources with the following components:
 
-| Name | Description | Type | Required |
-|------|-------------|------|----------|
-| resource_group_name | Name of the resource group | string | yes |
-| storage_account_name | Name of the storage account (must be globally unique) | string | yes |
-| location | Azure region | string | no (defaults to eastus) |
+- `main.tf`: Contains the primary storage resource configurations
+- `outputs.tf`: Defines the output values exposed by the module
+- `variables.tf`: Declares all variables used within the module
 
-## Testing
+### Tests
 
-This module uses Terraform's built-in testing framework (introduced in Terraform 1.6). Tests are located in the `tests` directory.
+The `/tests` directory contains automated tests for the module:
 
-To run the tests:
+- `storage.tftest.hcl`: Test configurations for validating storage resources
 
-```bash
-terraform init
-terraform test
-```
+### Root Configuration
 
-The test suite includes:
-- Validation of storage account name format
-- Verification of account tier and replication settings
-- Tag validation
+- `main.tf`: The root module configuration file
+- `.terraform.lock.hcl`: Terraform dependency lock file
+- `.gitignore`: Specifies which files Git should ignore
 
-### Writing Additional Tests
+## Getting Started
 
-To add new tests, create additional `.tftest.hcl` files in the `tests` directory. Example:
+1. Ensure you have Terraform installed
+2. Clone this repository
+3. Initialize Terraform:
+   ```bash
+   terraform init
+   ```
+4. Run the tests:
+   ```bash
+   terraform test
+   ```
 
-```hcl
-run "test_name" {
-  command = plan  # or apply
+## Contributing
 
-  module {
-    source = "./storage"
-  }
+When contributing to this module:
 
-  variables {
-    resource_group_name   = "example-rg"
-    storage_account_name  = "examplestorageacc"
-    location             = "eastus"
-  }
-
-  assert {
-    condition     = module.main.azurerm_storage_account.this.account_tier == "Standard"
-    error_message = "Storage account tier should be Standard"
-  }
-}
-```
+1. Create a new branch for your changes
+2. Update tests as needed
+3. Ensure all tests pass before submitting a pull request
+4. Update documentation to reflect any changes
 
 ## License
 
