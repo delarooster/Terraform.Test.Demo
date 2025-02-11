@@ -1,6 +1,6 @@
-# Azure Storage Account Terraform Module
+# Testing Terraform Modules
 
-This repository demonstrates how to use Terraform's built-in testing framework with an Azure Storage Account module.
+This repository demonstrates how to use Terraform's built-in testing framework with Terraform HCL modules.
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ This repository demonstrates how to use Terraform's built-in testing framework w
 - Azure subscription
 - Azure CLI configured with appropriate credentials
 
-## Directory Structure
+## Basic Directory Structure
 
 ```
 ├── storage/
